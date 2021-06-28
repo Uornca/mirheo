@@ -1,0 +1,54 @@
+#!/bin/bash
+
+P=mir
+prefix=${HOME}/bin
+runcmd=mpiexec
+
+usg() {
+    cat <<EOF
+usage: configure [OPTION]
+
+Options:
+
+  --bin-prefix <prefix>      set tools installation prefix;
+  	   		     default: ${prefix}
+  --exec-cmd   <cmd>         set run command for mirheo;
+  	   		     default: ${runcmd}
+  --help                     print help message
+
+EOF
+    exit 1
+}
+
+dump() {
+    cat <<EOF
+BIN_PREFIX=$prefix
+EXE_PREFIX=$P
+RUN_CMD=$runcmd
+EOF
+}
+
+
+while test $# -gt 0; do
+    case "$1" in
+	--bin-prefix)
+	    shift
+	    prefix="$1"
+	    ;;
+	--exec-cmd)
+	    shift
+	    runcmd="$1"
+	    ;;
+	--help)
+	    usg
+	    ;;
+	*)
+	    usg
+	    ;;
+    esac
+    shift
+done
+
+dump > config/install
+
+exit 0

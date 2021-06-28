@@ -1,0 +1,56 @@
+#! /bin/bash
+
+BATCH_CMD=@BATCH_CMD@
+BATCH_PREFIX="SBATCH"
+EXE_PREFIX=@EXE_PREFIX@
+
+usage() {
+    cat <<EOF
+batch submission wrapper for Mirheo
+automatically loads the required modules and launch a given batch script.
+
+usage: $EXE_PREFIX.batch <batch file>
+EOF
+    exit 1
+}
+
+if test $# -ne 0 && test "$1" = -h;     then usage; fi
+if test $# -ne 0 && test "$1" = --help; then usage; fi
+
+batch_options="#/bin/bash -l"
+
+function append_option {
+    arg=$1
+    key=`expr "$arg" : '--\(.[a-zA-Z0-9]*\)='`
+    val=`expr "$arg" : '--.[a-zA-Z0-9]*=\(.[a-zA-Z0-9]*\)'`
+    batch_options="${batch_options}
+#${BATCH_PREFIX} ${arg}"
+}
+
+while test $# -ne 0; do
+    arg=$1
+    
+    if [[ "$arg" =~ ^--[a-zA-Z0-9]+=[a-zA-Z0-9]+ ]]; then
+	append_option $arg
+	#echo $key $val
+    else
+	usage
+    fi    
+    shift
+done
+
+. $EXE_PREFIX.load
+
+if test ! -z "${DRYRUN+x}"; then
+    batch_cmd=cat
+else
+    batch_cmd=$BATCH_CMD
+fi
+
+file_content=`cat`
+
+exec $batch_cmd <<EOF
+$batch_options
+
+$file_content
+EOF

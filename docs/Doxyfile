@@ -1,0 +1,42 @@
+PROJECT_NAME         = "mirheo"
+XML_OUTPUT           = xml
+EXTENSION_MAPPING    = cu=c++
+GENERATE_LATEX       = NO
+GENERATE_MAN         = NO
+GENERATE_RTF         = NO
+CASE_SENSE_NAMES     = NO
+GENERATE_HTML        = NO
+GENERATE_XML         = YES
+RECURSIVE            = YES
+QUIET                = YES
+JAVADOC_AUTOBRIEF    = YES
+WARN_IF_UNDOCUMENTED = YES
+BUILTIN_STL_SUPPORT  = YES
+
+INPUT = ../src/mirheo/core \
+      ../src/mirheo/plugins
+
+## FILE_PATTERNS     = *.h *.cpp *.cu
+FILE_PATTERNS     = *.h
+
+CITE_BIB_FILES = source/references.bib
+
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+PREDEFINED  += DOXYGEN_SHOULD_SKIP_THIS \
+	     __align__(x)=              \
+             __restrict__=              \
+             __launch_bounds__(x,y)=    \
+             __H__=                     \
+             __HD__=                    \
+             __D__=                     \
+             __UNUSED=                  \
+             __CUDACC__=1               \
+             MIRHEO_MEMBER_VARS(...)=   \
+             MIRHEO_TYPE_NAME(T,N)=     \
+             MIRHEO_TYPE_NAME_AUTO(T)= \
+	     USE_NVTX
+
+ALIASES += "rst=\verbatim embed:rst:leading-asterisk"
+ALIASES += "endrst=\endverbatim"

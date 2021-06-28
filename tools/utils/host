@@ -1,0 +1,33 @@
+#! /bin/bash
+
+usage() {
+    cat <<EOF
+wrapper for hostname shell command
+this is used to choose configuration in other 
+tools such as the `load` tool 
+
+usage:
+host
+EOF
+    exit 1
+}
+
+if test $# -ne 0; then usage; fi
+
+case `hostname` in
+    falcon*)
+        echo falcon
+	;;
+    panda*)
+        echo panda
+	;;
+    barry*)
+	echo barry
+	;;
+    daint*)
+	echo daint
+	;;
+    *)
+	echo __default
+	;;	
+esac

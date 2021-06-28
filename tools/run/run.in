@@ -1,0 +1,84 @@
+#! /bin/bash
+# vi: ft=sh
+
+EXE_PREFIX=@EXE_PREFIX@
+RUN_CMD=@RUN_CMD@
+
+# defaults additional executables
+: ${EXE_CUDA_MEMCHECK=cuda-memcheck}
+: ${EXE_VALGRIND=valgrind}
+: ${EXE_NVPROF=nvprof}
+: ${EXE_CUDA_GDB=cuda-gdb}
+
+
+usage() {
+    cat <<EOF
+wrapper for mirheo executable.
+automatically loads the required modules.
+
+usage: $EXE_PREFIX.run [--runargs RUNARGS] <executable> [ARGS]
+
+--runargs option allows to pass arguments to ${RUN_CMD}
+These options can be alternatively passed by setting the 
+environment variable MIR_RUNARGS
+
+additional executables are used if one of the following
+environment variable is set (its value must contain the 
+options to the concerned program):
+
+    MEM            $EXE_CUDA_MEMCHECK
+    VAL            $EXE_VALGRIND
+    PROF           $EXE_NVPROF
+    GDB		   $EXE_CUDA_GDB
+
+the command executed can be printed by setting DRYRUN 
+env variable
+
+example:
+
+    DRYRUN= MEM=  $EXE_PREFIX.run --runargs "-n 2" ./mirheo
+
+will print
+   
+   $RUN_CMD -n 2 $EXE_CUDA_MEMCHECK ./mirheo
+
+EOF
+    exit 1
+}
+
+if test $# -ne 0 && test "$1" = -h;     then usage; fi
+if test $# -ne 0 && test "$1" = --help; then usage; fi
+
+if test $# -ne 0 && test "$1" = --runargs
+then
+    shift
+    if test $# -ne 0
+    then RUNARGS=$1; shift
+    else
+	usage
+    fi
+fi
+
+if test ! -z "${MIR_RUNARGS+x}"; then
+    RUNARGS="$RUNARGS $MIR_RUNARGS"
+fi
+
+command=$1; shift
+
+if   test ! -z "${MEM+x}" ; then CMD_PREFIX="${EXE_CUDA_MEMCHECK} ${MEM}"
+elif test ! -z "${VAL+x}" ; then CMD_PREFIX="${EXE_VALGRIND} ${VAL}"
+elif test ! -z "${PROF+x}"; then CMD_PREFIX="${EXE_NVPROF} ${PROF}"
+elif test ! -z "${GDB+x}" ; then CMD_PREFIX="${EXE_CUDA_GDB} ${GDB} --args "
+else                             CMD_PREFIX=""
+fi
+
+exe_cmn () { echo $RUN_CMD $RUNARGS "$@"; }
+
+. $EXE_PREFIX.load
+
+if   test ! -z "${DRYRUN+x}"
+then	
+    echo $CMD_PREFIX $RUN_CMD $RUNARGS $command "$@"
+else
+    exec $CMD_PREFIX $RUN_CMD $RUNARGS $command "$@"
+fi

@@ -1,0 +1,10 @@
+#! /bin/bash
+
+EXE_PREFIX=@EXE_PREFIX@
+
+. $EXE_PREFIX.load
+
+@MAKE_FLAGS@
+
+exec make CMAKE_FLAGS="$CMAKE_FLAGS $HOST_CMAKE_FLAGS" "$@"
+
