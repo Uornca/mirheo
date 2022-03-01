@@ -1,6 +1,6 @@
 CMAKE ?= cmake
 PIP ?= python -m pip
-CMAKE_FLAGS ?= -DMIR_CUDA_ARCH_NAME=6.0
+CMAKE_FLAGS ?= -DCUDA_ARCH_NAME=6.0
 
 .PHONY: build install compile_and_copy uninstall docs test clean
 
