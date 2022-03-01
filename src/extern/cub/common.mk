@@ -65,51 +65,6 @@ ifeq (520, $(findstring 520, $(SM_ARCH)))
     SM_DEF 		+= -DSM520
     TEST_ARCH 	= 520
 endif
-ifeq (370, $(findstring 370, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_37,code=\"sm_37,compute_37\" 
-    SM_DEF 		+= -DSM370
-    TEST_ARCH 	= 370
-endif
-ifeq (350, $(findstring 350, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_35,code=\"sm_35,compute_35\" 
-    SM_DEF 		+= -DSM350
-    TEST_ARCH 	= 350
-endif
-ifeq (300, $(findstring 300, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_30,code=\"sm_30,compute_30\"
-    SM_DEF 		+= -DSM300
-    TEST_ARCH 	= 300
-endif
-ifeq (210, $(findstring 210, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_20,code=\"sm_21,compute_20\"
-    SM_DEF 		+= -DSM210
-    TEST_ARCH 	= 210
-endif
-ifeq (200, $(findstring 200, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_20,code=\"sm_20,compute_20\"
-    SM_DEF 		+= -DSM200
-    TEST_ARCH 	= 200
-endif
-ifeq (130, $(findstring 130, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_13,code=\"sm_13,compute_13\" 
-    SM_DEF 		+= -DSM130
-    TEST_ARCH 	= 130
-endif
-ifeq (120, $(findstring 120, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_12,code=\"sm_12,compute_12\" 
-    SM_DEF 		+= -DSM120
-    TEST_ARCH 	= 120
-endif
-ifeq (110, $(findstring 110, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_11,code=\"sm_11,compute_11\" 
-    SM_DEF 		+= -DSM110
-    TEST_ARCH 	= 110
-endif
-ifeq (100, $(findstring 100, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_10,code=\"sm_10,compute_10\" 
-    SM_DEF 		+= -DSM100
-    TEST_ARCH 	= 100
-endif
 
 
 # [cdp=<0|1>] CDP enable option (default: no)
