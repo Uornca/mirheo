@@ -34,12 +34,12 @@ option(MIR_PROFILE_COMPILATION "print compilation profiling info"  OFF)
 include(options)
 include(version)
 
-getMirheoVersion(MIR_VERSION MIR_VERSION_CMAKE_FORMAT)
+#getMirheoVersion(MIR_VERSION MIR_VERSION_CMAKE_FORMAT)
 getMirheoSHA1(MIR_SHA1)
 
-message("Compiling libmirheo version ${MIR_VERSION_CMAKE_FORMAT}")
+message("Compiling libmirheo version 1.5.0")
 
-project(Mirheo VERSION ${MIR_VERSION_CMAKE_FORMAT} LANGUAGES C CXX CUDA)
+project(Mirheo VERSION 1.5.0 LANGUAGES C CXX CUDA)
 
 # ***********************
 # Alias directories
